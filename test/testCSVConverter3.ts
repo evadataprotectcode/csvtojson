@@ -1,19 +1,19 @@
 import csv from "../src";
 import assert from "assert";
-var fs = require("fs");
-import { sandbox } from "sinon";
+const fs = require("fs");
+const sandbox = require('sinon').createSandbox();
 import CSVError from "../src/CSVError";
-const sb = sandbox.create();
+
 describe("testCSVConverter3", function () {
   afterEach(function () {
-    sb.restore();
+    sandbox.restore();
   });
   it("should parse large csv file with UTF-8 without spliting characters", function (done) {
-    var testData = __dirname + "/data/large-utf8.csv";
-    var rs = fs.createReadStream(testData);
-    var csvConverter = csv({
+    const testData = __dirname + "/data/large-utf8.csv";
+    const rs = fs.createReadStream(testData);
+    const csvConverter = csv({
     });
-    var count = 0;
+    let count = 0;
     csvConverter.preRawData(function (csvRawData) {
       assert(csvRawData.charCodeAt(0) < 2000);
       return csvRawData;
@@ -34,8 +34,8 @@ describe("testCSVConverter3", function () {
         "column1": "string",
         "column5": function (item, head, resultRow, row, i) {
           assert.equal(item, '{"hello":"world"}');
-          assert.equal(head, "column5"),
-            assert(resultRow);
+          assert.equal(head, "column5");
+          assert(resultRow);
           assert(row);
           assert.equal(i, 5);
           return "hello world";
@@ -68,7 +68,7 @@ describe("testCSVConverter3", function () {
   })
   it("emit file not exists error when try to open a non-exists file", function () {
     let called = false;
-    const cb = sb.spy((err) => {
+    const cb = sandbox.spy((err) => {
       assert(err.toString().indexOf("File does not exist") > -1);
     });
     return csv()
@@ -87,7 +87,7 @@ describe("testCSVConverter3", function () {
   it("should include column that is both included and excluded", () => {
     return csv({
       includeColumns: /b/,
-      ignoreColumns: /a|b/
+      ignoreColumns: /[ab]/
     })
       .fromString(`a,b,c
 1,2,3
@@ -98,13 +98,15 @@ describe("testCSVConverter3", function () {
       })
   })
   it("should allow async preLine hook", () => {
+    const sleep = (resolve, time, line) => {
+      setTimeout(() => {
+        resolve(line + "changed")
+      }, time);
+    }
     return csv()
       .preFileLine((line) => {
         return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve(line + "changed")
-          }, 20);
-
+          sleep(resolve, 20, line);
         })
       })
       .fromString(`a,b
@@ -117,16 +119,19 @@ describe("testCSVConverter3", function () {
   })
 
   it("should allow async subscribe function", () => {
+    const sleep = (resolve, time, line) => {
+      setTimeout(() => {
+        line.a = 10;
+            resolve();
+      }, time);
+    }
     return csv({ trim: true })
       .fromString(`a,b,c
     1,2,3
     4,5,6`)
       .subscribe((d) => {
         return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            d.a = 10;
-            resolve();
-          }, 20);
+          sleep(resolve, 20, d);
         })
       })
       .then((d) => {
@@ -229,7 +234,7 @@ describe("testCSVConverter3", function () {
       });
   })
   it("should parse header with quotes correctly", function () {
-    var testData = __dirname + "/data/csvWithUnclosedHeader";
+    const testData = __dirname + "/data/csvWithUnclosedHeader";
     return csv({
       headers: ["exam_date", "sample_no", "status", "sample_type", "patient_id", "last_name", "first_name", "gender_of_patient", "patient_birth_date", "patient_note", "patient_department", "accession_number", "sample_site", "physician", "operator", "department", "note", "test_order_code", "draw_time", "approval_status", "approval_time", "report_layout", "patient_account_number", "none_1", "errors_detected_during_measurement", "age", "error_code_01", "weight", "error_code_02", "height", "error_code_03", "hcg_beta_p", "error_code_04", "troponin_i_p", "error_code_05", "ck_mb_p", "error_code_06", "d_dimer_p", "error_code_07", "hscrp_p", "error_code_08", "myoglobin_p", "error_code_09", "nt_probnp", "error_code_10", "crp", "error_code_11", "bnp", "error_code_12", "tnt", "error_code_13", "demo_p", "error_code_14", "pct", "error_code_15"]
     })

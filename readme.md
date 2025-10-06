@@ -22,23 +22,6 @@
 
 [Here](http://keyangxiang.com/csvtojson/) is a free online csv to json convert service utilizing latest `csvtojson` module.
 
-# Upgrade to V2
-
-`csvtojson` has released version `2.0.0`. 
-* To upgrade to v2, please follow [upgrading guide](https://github.com/Keyang/node-csvtojson/blob/master/docs/csvtojson-v2.md)
-* If you are looking for documentation for `v1`, open [this page](https://github.com/Keyang/node-csvtojson/blob/master/docs/readme.v1.md)
-
-It is still able to use v1 with `csvtojson@2.0.0`
-
-```js
-// v1
-const csvtojsonV1=require("csvtojson/v1");
-// v2
-const csvtojsonV2=require("csvtojson");
-const csvtojsonV2=require("csvtojson/v2");
-
-```
-
 # Menu
 
 * [Quick Start](#quick-start)

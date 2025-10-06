@@ -119,15 +119,15 @@ export function mergeParams(params?: Partial<CSVParseParam>): CSVParseParam {
     downstreamFormat:"line",
     needEmitAll:true
   }
-  if (!params) {
-    params = {};
-  }
+  params ??= {};
   for (let key in params) {
     if (params.hasOwnProperty(key)) {
-      if (Array.isArray(params[key])) {
-        defaultParam[key] = [].concat(params[key]);
+      const paramKey = params[key];
+      if (Array.isArray(paramKey)) {
+        const arr = [] as any[];
+        defaultParam[key] = arr.concat(paramKey);
       } else {
-        defaultParam[key] = params[key];
+        defaultParam[key] = paramKey;
       }
     }
   }

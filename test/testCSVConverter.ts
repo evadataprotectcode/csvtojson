@@ -2,7 +2,7 @@ import {Converter} from "../src/Converter";
 import csv from "../src";
 var assert = require("assert");
 var fs = require("fs");
-var sandbox = require("sinon").sandbox.create();
+var sandbox = require("sinon").createSandbox();
 var file = __dirname + "/data/testData";
 var trailCommaData = __dirname + "/data/trailingComma";
 describe("CSV Converter", function () {
