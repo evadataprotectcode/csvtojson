@@ -1,4 +1,4 @@
-import csv=require("./v2");
+import csv=require("./lib");
 
 export=csv;
 
