@@ -1,11 +1,6 @@
-[![Build Status](https://travis-ci.org/Keyang/node-csvtojson.svg?branch=master)](https://travis-ci.org/Keyang/node-csvtojson)
-[![Coverage Status](https://coveralls.io/repos/github/Keyang/node-csvtojson/badge.svg?branch=master)](https://coveralls.io/github/Keyang/node-csvtojson?branch=master)
-[![OpenCollective](https://opencollective.com/csvtojson/backers/badge.svg)](#backers) 
-[![OpenCollective](https://opencollective.com/csvtojson/sponsors/badge.svg)](#sponsors)
-
 # CSVTOJSON
 
-`csvtojson` module is a comprehensive nodejs csv parser to convert csv to json or column arrays. It can be used as node.js library / command line tool / or in browser. Below are some features:
+`csvtojson` module is a comprehensive nodejs csv parser to convert csv to json or column arrays. It can be used as node.js library / command line tool. Below are some features:
 
 *  Strictly follow CSV definition [RFC4180](https://www.loc.gov/preservation/digital/formats/fdd/fdd000323.shtml)
 *  Work with millions of lines of CSV data
@@ -17,10 +12,6 @@
 *  Provide a csv parser for both Node.JS and browsers
 *  Easy to use API
 
-
-# csvtojson online 
-
-[Here](http://keyangxiang.com/csvtojson/) is a free online csv to json convert service utilizing latest `csvtojson` module.
 
 # Menu
 
@@ -589,10 +580,6 @@ csv({
 })
 ```
 
-# Contribution
-
-Very much appreciate any types of donation and support. 
-
 ## Code
 
 `csvtojson` follows github convention for contributions. Here are some steps:
@@ -604,67 +591,3 @@ Very much appreciate any types of donation and support.
 5. Create a [Pull Request](https://help.github.com/articles/creating-a-pull-request/) on github.
 6. Code review and merge
 7. Changes will be published to NPM within next version.
-
-Thanks all the [contributors](https://github.com/Keyang/node-csvtojson/graphs/contributors)
-
-## Backers
-
-Thank you to all our backers! [[Become a backer](https://opencollective.com/csvtojson#backer)]
-
-[![OpenCollective](https://opencollective.com/csvtojson/backers.svg?width=890)](https://opencollective.com/csvtojson#backer)
-
-## Sponsors
-
-Thank you to all our sponsors! (please ask your company to also support this open source project by [becoming a sponsor](https://opencollective.com/csvtojson#sponsor))
-
-## Paypal 
-
-[![donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DUBQLRPJADJFQ)
-
-# Browser Usage
-
-To use `csvtojson` in browser is quite simple. There are two ways:
-
-**1. Embed script directly into script tag**
-
-There is a pre-built script located in `browser/csvtojson.min.js`. Simply include that file in a `script` tag in `index.html` page:
-
-```html
-<script src="node_modules/csvtojson/browser/csvtojson.min.js"></script>
-<!-- or use cdn -->
-<script src="https://cdn.rawgit.com/Keyang/node-csvtojson/d41f44aa/browser/csvtojson.min.js"></script>
-```
-then use a global `csv` function
-```html 
-<script>
-csv({
-	output: "csv"
-})
-.fromString("a,b,c\n1,2,3")
-.then(function(result){
-
-})
-</script>
-```
-
-
-
-**2. Use webpack or browserify**
-
-If a module packager is preferred, just simply `require("csvtojson")`:
-
-```js
-var csv=require("csvtojson");
-
-// or with import
-import {csv} from "csvtojson";
-
-//then use csv as normal, you'll need to load the CSV first, this example is using Fetch https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch 
-fetch('http://mywebsite.com/mycsvfile.csv')
-  .then(response => response.text())
-  .then(text => csv.fromString(text));
-  .then(function(result){
-  
-  })
-
-```
