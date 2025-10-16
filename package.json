@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/evadataprotectcode/csvtojson.git"
   },
-  "version": "2.0.12",
+  "version": "2.0.13",
   "license": "MIT",
   "engines": {
     "node": ">=22.0.0"
